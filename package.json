@@ -12,13 +12,16 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^3.30.0",
+    "@clerk/nextjs": "^6.35.5",
     "@emotion/react": "^11.14.0",
+    "@t3-oss/env-nextjs": "^0.13.8",
     "new-component": "^6.0.0",
     "next": "16.0.5",
     "next-themes": "^0.4.6",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "zod": "^4.1.13"
   },
   "devDependencies": {
     "@types/node": "^20",
