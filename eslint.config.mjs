@@ -18,6 +18,9 @@ const eslintConfig = defineConfig([
     plugins: {
       prettier: eslintConfigPrettier,
     },
+    rules: {
+      '@typescript-eslint/no-empty-object-type': 'off',
+    },
   },
 ])
 
