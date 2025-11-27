@@ -1,4 +1,11 @@
+import { Providers } from '@/app/providers'
 import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+
+const interFont = Inter({
+  variable: '--font-inter',
+  subsets: ['latin'],
+})
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -11,8 +18,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html
+      lang="en"
+      className={`${interFont.variable}`}
+      suppressHydrationWarning
+    >
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   )
 }
