@@ -1,5 +1,6 @@
-import { query } from '@/convex/_generated/server'
+import { mutation, query } from '@/convex/_generated/server'
 import { getCurrentUserId } from '@/convex/helpers/auth'
+import { v } from 'convex/values'
 
 export const list = query({
   async handler(ctx) {
@@ -13,6 +14,23 @@ export const list = query({
       .order('desc')
       .collect()
 
-    return docs
+    return docs.filter((doc) => doc.description !== undefined)
+  },
+})
+
+export const create = mutation({
+  args: { name: v.optional(v.string()) },
+  async handler(ctx, { name }) {
+    const userId = await getCurrentUserId(ctx)
+    const now = Date.now()
+
+    const docId = await ctx.db.insert('docs', {
+      ownerId: userId,
+      name,
+      createdAt: now,
+      updatedAt: now,
+    })
+
+    return docId
   },
 })
