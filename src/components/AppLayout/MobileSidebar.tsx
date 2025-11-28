@@ -13,7 +13,11 @@ export function MobileSidebar() {
   return (
     <DrawerRoot placement="start" lazyMount>
       <DrawerTrigger asChild hideFrom="lg">
-        <IconButton aria-label="Open Menu" variant="ghost">
+        <IconButton
+          aria-label="Open Menu"
+          variant="ghost"
+          colorPalette="gray"
+        >
           <LuAlignLeft />
         </IconButton>
       </DrawerTrigger>

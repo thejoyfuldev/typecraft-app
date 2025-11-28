@@ -51,9 +51,9 @@ export default function EmptyTrashButton(buttonProps: ButtonProps) {
     >
       <DialogTrigger asChild>
         <Button
+          {...buttonProps}
           size="sm"
           onClick={() => setOpen(true)}
-          {...buttonProps}
         >
           <LuTrash2 /> Empty trash
         </Button>
@@ -68,7 +68,9 @@ export default function EmptyTrashButton(buttonProps: ButtonProps) {
         </DialogBody>
         <DialogFooter>
           <DialogActionTrigger asChild>
-            <Button variant="outline">Cancel</Button>
+            <Button variant="outline" colorPalette="gray">
+              Cancel
+            </Button>
           </DialogActionTrigger>
           <Button
             colorPalette="red"
