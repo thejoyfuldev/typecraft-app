@@ -2,6 +2,7 @@
 
 import DocGrid from '@/components/DocGrid'
 import DocsLoading from '@/components/DocsLoading'
+import NewDocButton from '@/components/NewDocButton'
 import { api } from '@/convex/_generated/api'
 import { Flex, Heading, HStack, Stack } from '@chakra-ui/react'
 import { useQuery } from 'convex/react'
@@ -15,6 +16,8 @@ export default function Page() {
         <Heading as="h2" textStyle="3xl">
           Docs
         </Heading>
+
+        <NewDocButton />
       </HStack>
 
       {!docs ? (
