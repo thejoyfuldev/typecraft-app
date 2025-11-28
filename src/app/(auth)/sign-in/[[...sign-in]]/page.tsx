@@ -1,4 +1,4 @@
-import AuthLayout from '@/components/app/AuthLayout'
+import AuthLayout from '@/components/AuthLayout'
 import { SignIn } from '@clerk/nextjs'
 import { Metadata } from 'next'
 
