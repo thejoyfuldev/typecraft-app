@@ -14,7 +14,7 @@ import { Toaster } from './toaster'
 const system = createSystem(defaultConfig, {
   globalCss: {
     body: {
-      colorPalette: 'grey',
+      colorPalette: 'teal',
     },
   },
   theme: {
