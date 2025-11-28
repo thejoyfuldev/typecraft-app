@@ -1,4 +1,4 @@
-import { Center } from '@chakra-ui/react'
+import AuthLayout from '@/components/app/AuthLayout'
 import { SignIn } from '@clerk/nextjs'
 import { Metadata } from 'next'
 
@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <Center minH="100vh">
+    <AuthLayout>
       <SignIn />
-    </Center>
+    </AuthLayout>
   )
 }
