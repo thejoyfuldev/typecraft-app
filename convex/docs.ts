@@ -18,6 +18,22 @@ export const list = query({
   },
 })
 
+export const listTrash = query({
+  async handler(ctx) {
+    const userId = await getCurrentUserId(ctx)
+
+    const docs = await ctx.db
+      .query('docs')
+      .withIndex('byDeletedAt')
+      .filter((f) => f.eq(f.field('ownerId'), userId))
+      .filter((f) => f.neq(f.field('deletedAt'), undefined))
+      .order('desc')
+      .collect()
+
+    return docs
+  },
+})
+
 export const create = mutation({
   args: { name: v.optional(v.string()) },
   async handler(ctx, { name }) {
@@ -32,5 +48,24 @@ export const create = mutation({
     })
 
     return docId
+  },
+})
+
+export const emptyTrash = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const userId = await getCurrentUserId(ctx)
+
+    const trashedDocuments = await ctx.db
+      .query('docs')
+      .filter((f) => f.eq(f.field('ownerId'), userId))
+      .filter((f) => f.neq(f.field('deletedAt'), undefined))
+      .collect()
+
+    for (const doc of trashedDocuments) {
+      await ctx.db.delete(doc._id)
+    }
+
+    return { count: trashedDocuments.length }
   },
 })
