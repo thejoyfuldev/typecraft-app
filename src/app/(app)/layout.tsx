@@ -1,3 +1,4 @@
+import AppLayout from '@/components/AppLayout'
 import { ReactNode } from 'react'
 
 export default function Layout({
@@ -5,5 +6,5 @@ export default function Layout({
 }: {
   children: ReactNode
 }) {
-  return children
+  return <AppLayout>{children}</AppLayout>
 }
