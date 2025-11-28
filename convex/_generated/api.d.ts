@@ -8,13 +8,19 @@
  * @module
  */
 
+import type * as docs from "../docs.js";
+import type * as helpers_auth from "../helpers/auth.js";
+
 import type {
   ApiFromModules,
   FilterApi,
   FunctionReference,
 } from "convex/server";
 
-declare const fullApi: ApiFromModules<{}>;
+declare const fullApi: ApiFromModules<{
+  docs: typeof docs;
+  "helpers/auth": typeof helpers_auth;
+}>;
 
 /**
  * A utility for referencing Convex functions in your app's public API.
