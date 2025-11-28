@@ -18,7 +18,7 @@ export function MobileSidebar() {
         </IconButton>
       </DrawerTrigger>
       <DrawerContent>
-        <DrawerHeader>
+        <DrawerHeader borderBottomWidth="1px" h="14">
           <Logo />
         </DrawerHeader>
         <Sidebar h="full" />
