@@ -29,6 +29,7 @@ export default function SidebarButtonLink(
       <Button
         {...delegated}
         variant="ghost"
+        colorPalette="gray"
         width="full"
         justifyContent="start"
         gap="3"
