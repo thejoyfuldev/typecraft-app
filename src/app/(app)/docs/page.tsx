@@ -11,7 +11,7 @@ import { useQuery } from 'convex/react'
 
 export default function Page() {
   const docs = useQuery(api.docs.list)
-  const isLoading = true
+  const isLoading = docs === undefined
   const isEmpty = docs?.length === 0
   const hasDocs = !!docs && docs.length > 0
 
