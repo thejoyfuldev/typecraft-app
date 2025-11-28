@@ -1,6 +1,8 @@
 import Sidebar from '@/components/AppLayout/Sidebar'
+import Logo from '@/components/Logo'
 import {
   DrawerContent,
+  DrawerHeader,
   DrawerRoot,
   DrawerTrigger,
 } from '@/components/ui/drawer'
@@ -16,6 +18,9 @@ export function MobileSidebar() {
         </IconButton>
       </DrawerTrigger>
       <DrawerContent>
+        <DrawerHeader>
+          <Logo />
+        </DrawerHeader>
         <Sidebar h="full" />
       </DrawerContent>
     </DrawerRoot>

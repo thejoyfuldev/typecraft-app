@@ -46,28 +46,26 @@ export default function Sidebar(props: StackProps) {
       borderRightWidth="1px"
       justifyContent="space-between"
     >
-      <Stack gap="6">
-        <Stack gap="1">
-          {topLinks.map((link) => {
-            const isPathActive = link.href === pathname
+      <Stack gap="1">
+        {topLinks.map((link) => {
+          const isPathActive = link.href === pathname
 
-            return (
-              <SidebarButtonLink
-                key={link.key}
-                href={link.href}
-                aria-current={isPathActive ? 'page' : undefined}
-                isLink
-              >
-                <link.icon /> {link.label}
-              </SidebarButtonLink>
-            )
-          })}
+          return (
+            <SidebarButtonLink
+              key={link.key}
+              href={link.href}
+              aria-current={isPathActive ? 'page' : undefined}
+              isLink
+            >
+              <link.icon /> {link.label}
+            </SidebarButtonLink>
+          )
+        })}
 
-          <SidebarButtonLink onClick={() => openUserProfile()}>
-            <LuCircleUser />
-            Account
-          </SidebarButtonLink>
-        </Stack>
+        <SidebarButtonLink onClick={() => openUserProfile()}>
+          <LuCircleUser />
+          Account
+        </SidebarButtonLink>
       </Stack>
 
       <Stack gap="4" separator={<StackSeparator />} hideBelow="lg">

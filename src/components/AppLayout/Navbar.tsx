@@ -11,7 +11,9 @@ export default function Navbar(props: BoxProps) {
           <HStack align="center" h="full">
             <MobileSidebar />
 
-            <Logo />
+            <Box hideBelow="lg">
+              <Logo />
+            </Box>
           </HStack>
 
           <Box hideFrom="lg">
