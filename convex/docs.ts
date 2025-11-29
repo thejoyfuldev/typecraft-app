@@ -14,7 +14,27 @@ export const list = query({
       .order('desc')
       .collect()
 
-    return docs.filter((doc) => doc.description !== undefined)
+    return docs
+  },
+})
+
+export const get = query({
+  args: {
+    docId: v.id('docs'),
+  },
+  async handler(ctx, { docId }) {
+    const userId = await getCurrentUserId(ctx)
+    const document = await ctx.db.get(docId)
+
+    if (!document) {
+      throw new Error('Document not found')
+    }
+
+    if (document.ownerId !== userId) {
+      throw new Error('Unauthorized')
+    }
+
+    return document
   },
 })
 
@@ -48,6 +68,35 @@ export const create = mutation({
     })
 
     return docId
+  },
+})
+
+export const updateDoc = mutation({
+  args: {
+    docId: v.id('docs'),
+    update: v.object({
+      name: v.optional(v.string()),
+      description: v.optional(v.string()),
+      content: v.optional(v.any()),
+    }),
+  },
+  async handler(ctx, { docId, update }) {
+    const userId = await getCurrentUserId(ctx)
+    const document = await ctx.db.get(docId)
+
+    if (!document) {
+      throw new Error('Document not found')
+    }
+
+    if (document.ownerId !== userId) {
+      throw new Error('Unauthorized')
+    }
+
+    await ctx.db.patch(docId, {
+      ...update,
+      description: update.description?.substring(0, 80),
+      updatedAt: Date.now(),
+    })
   },
 })
 
