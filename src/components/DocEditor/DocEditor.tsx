@@ -1,3 +1,4 @@
+import Editor from '@/components/DocEditor/Editor'
 import Header from '@/components/DocEditor/Header'
 import { api } from '@/convex/_generated/api'
 import { Id } from '@/convex/_generated/dataModel'
@@ -47,7 +48,7 @@ export default function DocEditor({ docId }: { docId: Id<'docs'> }) {
             minH="100px"
             p="1"
           >
-            {/* <DocEditor /> */}
+            <Editor doc={doc} />
           </Box>
         </Container>
       </Flex>

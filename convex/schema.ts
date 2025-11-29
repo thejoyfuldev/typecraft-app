@@ -8,7 +8,7 @@ export default defineSchema({
     name: v.optional(v.string()),
     description: v.optional(v.string()),
     type: DOC_TYPES,
-    content: v.optional(v.any()),
+    content: v.optional(v.array(v.any())),
     createdAt: v.number(),
     updatedAt: v.number(),
     deletedAt: v.optional(v.number()),
