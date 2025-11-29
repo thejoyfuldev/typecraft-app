@@ -45,6 +45,7 @@ export default function NewDocButton() {
         const docType = value as Infer<typeof DOC_TYPES>
         handleCreateDoc('', docType)
       }}
+      positioning={{ placement: 'bottom-end' }}
     >
       <ButtonGroup size="sm" attached>
         <Button onClick={() => handleCreateDoc()} loading={loading}>
