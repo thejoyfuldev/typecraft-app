@@ -1,4 +1,13 @@
+import ConfirmDeleteDocDialog from '@/components/ConfirmDeleteDocDialog'
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+} from '@/components/ui/menu'
+import { Tooltip } from '@/components/ui/tooltip'
 import { Doc } from '@/convex/_generated/dataModel'
+import { useDocActions } from '@/hooks/use-doc-actions.hook'
 import {
   CardBody,
   CardFooter,
@@ -6,16 +15,33 @@ import {
   CardRoot,
   Heading,
   HStack,
+  IconButton,
   LinkBox,
   LinkOverlay,
   Text,
 } from '@chakra-ui/react'
 import { formatDistance } from 'date-fns'
 import NextLink from 'next/link'
+import { useId, useState } from 'react'
+import { LuEllipsisVertical } from 'react-icons/lu'
 
 export default function DocCard({ doc }: { doc: Doc<'docs'> }) {
+  const triggerId = useId()
+  const { handleMoveToTrash, handleUndo, handlePermanentlyDelete } =
+    useDocActions(doc)
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false)
+
   const docType = doc.deletedAt ? 'trash' : 'active'
   const docName = doc.name ? doc.name : 'Untitled doc'
+
+  const handleBeforeDelete = () => {
+    setShowConfirmDialog(true)
+  }
+
+  const handleConfirm = () => {
+    handlePermanentlyDelete()
+    setShowConfirmDialog(false)
+  }
 
   return (
     <LinkBox>
@@ -41,6 +67,59 @@ export default function DocCard({ doc }: { doc: Doc<'docs'> }) {
                 docName
               )}
             </Heading>
+
+            <MenuRoot ids={{ trigger: triggerId }}>
+              <Tooltip
+                ids={{ trigger: triggerId }}
+                content="More Actions"
+              >
+                <MenuTrigger asChild>
+                  <IconButton
+                    size="xs"
+                    variant="ghost"
+                    color="fg.muted"
+                    aria-label="More actions"
+                  >
+                    <LuEllipsisVertical />
+                  </IconButton>
+                </MenuTrigger>
+              </Tooltip>
+              <MenuContent>
+                {docType === 'active' ? (
+                  <MenuItem
+                    value="move"
+                    onClick={() => handleMoveToTrash()}
+                  >
+                    Move to Trash
+                  </MenuItem>
+                ) : (
+                  <>
+                    <MenuItem
+                      value="restore"
+                      onClick={() => handleUndo()}
+                    >
+                      Restore
+                    </MenuItem>
+
+                    <MenuItem
+                      value="delete"
+                      onClick={() => handleBeforeDelete()}
+                      color="fg.error"
+                      _hover={{ bg: 'bg.error', color: 'fg.error' }}
+                    >
+                      Delete
+                    </MenuItem>
+                  </>
+                )}
+              </MenuContent>
+            </MenuRoot>
+
+            <ConfirmDeleteDocDialog
+              docName={docName}
+              open={showConfirmDialog}
+              onOpenChange={({ open }) => setShowConfirmDialog(open)}
+              onConfirm={() => handleConfirm()}
+            />
           </HStack>
         </CardHeader>
         <CardBody>

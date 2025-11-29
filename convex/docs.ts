@@ -69,3 +69,69 @@ export const emptyTrash = mutation({
     return { count: trashedDocuments.length }
   },
 })
+
+export const moveToTrash = mutation({
+  args: { docId: v.id('docs') },
+  async handler(ctx, { docId }) {
+    const userId = await getCurrentUserId(ctx)
+    const document = await ctx.db.get(docId)
+
+    if (!document) {
+      throw new Error('Document not found')
+    }
+
+    if (document.ownerId !== userId) {
+      throw new Error('Unauthorized')
+    }
+
+    const now = Date.now()
+    await ctx.db.patch(docId, {
+      deletedAt: now,
+      updatedAt: now,
+    })
+  },
+})
+
+export const restore = mutation({
+  args: {
+    docId: v.id('docs'),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getCurrentUserId(ctx)
+    const document = await ctx.db.get(args.docId)
+
+    if (!document) {
+      throw new Error('Document not found')
+    }
+
+    if (document.ownerId !== userId) {
+      throw new Error('Unauthorized')
+    }
+
+    const now = Date.now()
+    await ctx.db.patch(args.docId, {
+      deletedAt: undefined,
+      updatedAt: now,
+    })
+  },
+})
+
+export const permanentlyDelete = mutation({
+  args: {
+    docId: v.id('docs'),
+  },
+  handler: async (ctx, args) => {
+    const userId = await getCurrentUserId(ctx)
+    const document = await ctx.db.get(args.docId)
+
+    if (!document) {
+      throw new Error('Document not found')
+    }
+
+    if (document.ownerId !== userId) {
+      throw new Error('Unauthorized')
+    }
+
+    await ctx.db.delete(args.docId)
+  },
+})
