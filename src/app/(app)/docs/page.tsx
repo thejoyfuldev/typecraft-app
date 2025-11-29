@@ -7,7 +7,7 @@ import NewDocButton from '@/components/NewDocButton'
 import SearchDocsInput from '@/components/SearchDocsInput'
 import { Skeleton } from '@/components/ui/skeleton'
 import { api } from '@/convex/_generated/api'
-import { Heading, HStack, Stack, Text } from '@chakra-ui/react'
+import { Box, Heading, HStack, Stack, Text } from '@chakra-ui/react'
 import { useQuery } from 'convex/react'
 
 export default function Page() {
@@ -45,8 +45,10 @@ export default function Page() {
         </Skeleton>
       </HStack>
 
-      {isLoading && <DocsLoading quantity={12} />}
-      {hasDocs && <DocGrid docs={docs} />}
+      <Box flex="1" pb="10">
+        {isLoading && <DocsLoading quantity={12} />}
+        {hasDocs && <DocGrid docs={docs} />}
+      </Box>
     </Stack>
   )
 }
