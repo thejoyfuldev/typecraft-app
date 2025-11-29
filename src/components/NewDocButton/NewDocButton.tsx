@@ -7,7 +7,7 @@ import {
 import { toaster } from '@/components/ui/toaster'
 import { api } from '@/convex/_generated/api'
 import { DOC_TYPES } from '@/convex/constants'
-import { Button, Group, IconButton } from '@chakra-ui/react'
+import { Button, ButtonGroup, IconButton } from '@chakra-ui/react'
 import { useMutation } from 'convex/react'
 import { Infer } from 'convex/values'
 import { useRouter } from 'next/navigation'
@@ -46,20 +46,16 @@ export default function NewDocButton() {
         handleCreateDoc('', docType)
       }}
     >
-      <Group attached>
-        <Button
-          size="sm"
-          onClick={() => handleCreateDoc()}
-          loading={loading}
-        >
+      <ButtonGroup size="sm" attached>
+        <Button onClick={() => handleCreateDoc()} loading={loading}>
           <LuCirclePlus /> New Doc
         </Button>
         <MenuTrigger asChild>
-          <IconButton size="sm">
+          <IconButton>
             <LuChevronDown />
           </IconButton>
         </MenuTrigger>
-      </Group>
+      </ButtonGroup>
       <MenuContent>
         <MenuItem value="performance">Performance Brief</MenuItem>
         <MenuItem value="award">Award</MenuItem>
