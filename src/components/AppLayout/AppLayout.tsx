@@ -18,7 +18,7 @@ export default function AppLayout({
         <Sidebar w="280px" position="sticky" top="0" hideBelow="lg" />
 
         <Flex flex="1" minW="0" minH="0" overflow="auto">
-          <Container py="8" flex="1" maxW="5xl">
+          <Container pt="10" pb="16" flex="1" maxW="5xl">
             {children}
           </Container>
         </Flex>
