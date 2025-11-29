@@ -1,10 +1,18 @@
+import {
+  MenuContent,
+  MenuItem,
+  MenuRoot,
+  MenuTrigger,
+} from '@/components/ui/menu'
 import { toaster } from '@/components/ui/toaster'
 import { api } from '@/convex/_generated/api'
-import { Button } from '@chakra-ui/react'
+import { DOC_TYPES } from '@/convex/constants'
+import { Button, Group, IconButton } from '@chakra-ui/react'
 import { useMutation } from 'convex/react'
+import { Infer } from 'convex/values'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { LuCirclePlus } from 'react-icons/lu'
+import { LuChevronDown, LuCirclePlus } from 'react-icons/lu'
 
 export default function NewDocButton() {
   const [loading, setLoading] = useState(false)
@@ -12,11 +20,14 @@ export default function NewDocButton() {
   const router = useRouter()
   const createDoc = useMutation(api.docs.create)
 
-  const handleCreateDoc = async (name?: string) => {
+  const handleCreateDoc = async (
+    name = '',
+    type: Infer<typeof DOC_TYPES> = 'performance'
+  ) => {
     setLoading(true)
 
     try {
-      const docId = await createDoc({ name })
+      const docId = await createDoc({ name, type })
       router.push(`/docs/${docId}`)
     } catch (err) {
       toaster.error({
@@ -27,13 +38,33 @@ export default function NewDocButton() {
       setLoading(false)
     }
   }
+
   return (
-    <Button
-      size="sm"
-      onClick={() => handleCreateDoc()}
-      loading={loading}
+    <MenuRoot
+      onSelect={({ value }) => {
+        const docType = value as Infer<typeof DOC_TYPES>
+        handleCreateDoc('', docType)
+      }}
     >
-      <LuCirclePlus /> New Doc
-    </Button>
+      <Group attached>
+        <Button
+          size="sm"
+          onClick={() => handleCreateDoc()}
+          loading={loading}
+        >
+          <LuCirclePlus /> New Doc
+        </Button>
+        <MenuTrigger asChild>
+          <IconButton size="sm">
+            <LuChevronDown />
+          </IconButton>
+        </MenuTrigger>
+      </Group>
+      <MenuContent>
+        <MenuItem value="performance">Performance Brief</MenuItem>
+        <MenuItem value="award">Award</MenuItem>
+        <MenuItem value="decoration">Decoration</MenuItem>
+      </MenuContent>
+    </MenuRoot>
   )
 }

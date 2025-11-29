@@ -7,8 +7,10 @@ import {
 } from '@/components/ui/menu'
 import { Tooltip } from '@/components/ui/tooltip'
 import { Doc } from '@/convex/_generated/dataModel'
+import { DOC_TYPES } from '@/convex/constants'
 import { useDocActions } from '@/hooks/use-doc-actions.hook'
 import {
+  Badge,
   CardBody,
   CardFooter,
   CardHeader,
@@ -20,10 +22,17 @@ import {
   LinkOverlay,
   Text,
 } from '@chakra-ui/react'
+import { Infer } from 'convex/values'
 import { formatDistance } from 'date-fns'
 import NextLink from 'next/link'
 import { useId, useState } from 'react'
 import { LuEllipsisVertical } from 'react-icons/lu'
+
+const DOC_TYPE_COLOR: Record<Infer<typeof DOC_TYPES>, string> = {
+  performance: 'teal',
+  award: 'purple',
+  decoration: 'orange',
+}
 
 export default function DocCard({ doc }: { doc: Doc<'docs'> }) {
   const triggerId = useId()
@@ -31,7 +40,7 @@ export default function DocCard({ doc }: { doc: Doc<'docs'> }) {
     useDocActions(doc)
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
 
-  const docType = doc.deletedAt ? 'trash' : 'active'
+  const isTrash = Boolean(doc.deletedAt)
   const docName = doc.name ? doc.name : 'Untitled doc'
 
   const handleBeforeDelete = () => {
@@ -56,18 +65,17 @@ export default function DocCard({ doc }: { doc: Doc<'docs'> }) {
       >
         <CardHeader>
           <HStack align="center" justify="space-between">
-            <Heading size="md" lineClamp={1}>
-              {docType === 'active' ? (
+            <Badge colorPalette={DOC_TYPE_COLOR[doc.type] ?? 'gray'}>
+              {!isTrash ? (
                 <LinkOverlay asChild>
                   <NextLink href={`/docs/${doc._id}`}>
-                    {docName}
+                    {doc.type}
                   </NextLink>
                 </LinkOverlay>
               ) : (
-                docName
+                doc.type
               )}
-            </Heading>
-
+            </Badge>
             <MenuRoot ids={{ trigger: triggerId }}>
               <Tooltip
                 ids={{ trigger: triggerId }}
@@ -85,7 +93,7 @@ export default function DocCard({ doc }: { doc: Doc<'docs'> }) {
                 </MenuTrigger>
               </Tooltip>
               <MenuContent>
-                {docType === 'active' ? (
+                {!isTrash ? (
                   <MenuItem
                     value="move"
                     onClick={() => handleMoveToTrash()}
@@ -123,6 +131,11 @@ export default function DocCard({ doc }: { doc: Doc<'docs'> }) {
           </HStack>
         </CardHeader>
         <CardBody>
+          <HStack>
+            <Heading size="md" lineClamp={1}>
+              {docName}
+            </Heading>
+          </HStack>
           <Text color="fg.muted" textStyle="sm" lineClamp="2">
             {doc.description}
           </Text>

@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as constants from "../constants.js";
 import type * as docs from "../docs.js";
 import type * as helpers_auth from "../helpers/auth.js";
 
@@ -18,6 +19,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  constants: typeof constants;
   docs: typeof docs;
   "helpers/auth": typeof helpers_auth;
 }>;

@@ -1,4 +1,5 @@
 import { mutation, query } from '@/convex/_generated/server'
+import { DOC_TYPES } from '@/convex/constants'
 import { getCurrentUserId } from '@/convex/helpers/auth'
 import { v } from 'convex/values'
 
@@ -55,14 +56,18 @@ export const listTrash = query({
 })
 
 export const create = mutation({
-  args: { name: v.optional(v.string()) },
-  async handler(ctx, { name }) {
+  args: {
+    name: v.optional(v.string()),
+    type: v.optional(DOC_TYPES),
+  },
+  async handler(ctx, { name, type = 'performance' }) {
     const userId = await getCurrentUserId(ctx)
     const now = Date.now()
 
     const docId = await ctx.db.insert('docs', {
       ownerId: userId,
       name,
+      type,
       createdAt: now,
       updatedAt: now,
     })
