@@ -77,7 +77,7 @@ export default function DocCard({ doc }: { doc: Doc<'docs'> }) {
                   <IconButton
                     size="xs"
                     variant="ghost"
-                    color="fg.muted"
+                    colorPalette="gray"
                     aria-label="More actions"
                   >
                     <LuEllipsisVertical />
