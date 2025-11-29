@@ -105,17 +105,17 @@ export const emptyTrash = mutation({
   handler: async (ctx) => {
     const userId = await getCurrentUserId(ctx)
 
-    const trashedDocuments = await ctx.db
+    const docs = await ctx.db
       .query('docs')
       .filter((f) => f.eq(f.field('ownerId'), userId))
       .filter((f) => f.neq(f.field('deletedAt'), undefined))
       .collect()
 
-    for (const doc of trashedDocuments) {
+    for (const doc of docs) {
       await ctx.db.delete(doc._id)
     }
 
-    return { count: trashedDocuments.length }
+    return { count: docs.length }
   },
 })
 
