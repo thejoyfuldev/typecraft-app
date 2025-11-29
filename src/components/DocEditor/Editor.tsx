@@ -22,10 +22,18 @@ export default function Editor({ doc }: { doc: Doc<'docs'> }) {
     if (!debouncedContent) return
 
     const handleUpdate = async () => {
+      const firstChildWithText = debouncedContent.filter(
+        (f) => f.children[0].text.trim() !== ''
+      )
+      const description =
+        firstChildWithText.length > 1
+          ? firstChildWithText[0].children[0].text.trim()
+          : ''
+
       try {
         await updateDoc({
           docId: doc._id,
-          update: { content: debouncedContent },
+          update: { content: debouncedContent, description },
         })
       } catch (err) {
         console.log((err as Error).message)
