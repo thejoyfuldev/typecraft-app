@@ -17,6 +17,7 @@ export function MobileSidebar() {
           aria-label="Open Menu"
           variant="ghost"
           colorPalette="gray"
+          size="sm"
         >
           <LuAlignLeft />
         </IconButton>

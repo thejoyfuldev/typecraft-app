@@ -15,10 +15,16 @@ export default function AppLayout({
       </Box>
 
       <Flex flex="1" minH="0">
-        <Sidebar w="280px" position="sticky" top="0" hideBelow="lg" />
+        <Sidebar
+          w="280px"
+          position="sticky"
+          top="0"
+          hideBelow="lg"
+          borderRightWidth="1px"
+        />
 
         <Flex flex="1" minW="0" minH="0" overflow="auto">
-          <Container pt="10" pb="16" flex="1" maxW="5xl">
+          <Container pt="10" pb="16" flex="1" maxW="7xl">
             {children}
           </Container>
         </Flex>

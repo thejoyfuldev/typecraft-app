@@ -3,10 +3,10 @@
 import SidebarButtonLink from '@/components/AppLayout/SidebarButtonLink'
 import {
   Box,
+  Separator,
   Span,
   Stack,
   StackProps,
-  StackSeparator,
   VStack,
 } from '@chakra-ui/react'
 import { useClerk, useUser } from '@clerk/nextjs'
@@ -39,14 +39,8 @@ export default function Sidebar(props: StackProps) {
   const pathname = usePathname()
 
   return (
-    <Stack
-      {...props}
-      p={{ base: '4', md: '6' }}
-      bg="bg.panel"
-      borderRightWidth="1px"
-      justifyContent="space-between"
-    >
-      <Stack gap="1">
+    <Stack {...props} bg="bg.panel" justifyContent="space-between">
+      <Stack gap="1" p="6">
         {topLinks.map((link) => {
           const isPathActive = link.href === pathname
 
@@ -68,10 +62,9 @@ export default function Sidebar(props: StackProps) {
         </SidebarButtonLink>
       </Stack>
 
-      <Stack gap="4" separator={<StackSeparator />} hideBelow="lg">
-        <Box />
-
-        <Stack gap="1">
+      <Stack gap="3">
+        <Separator />
+        <Stack gap="1" px="6">
           <SidebarButtonLink onClick={() => signOut()}>
             <LuLogOut />
             <VStack align="start" gap="0">
@@ -82,6 +75,7 @@ export default function Sidebar(props: StackProps) {
             </VStack>
           </SidebarButtonLink>
         </Stack>
+        <Box />
       </Stack>
     </Stack>
   )
