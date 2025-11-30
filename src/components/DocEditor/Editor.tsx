@@ -26,7 +26,7 @@ export default function Editor({ doc }: { doc: Doc<'docs'> }) {
         (f) => f.children[0].text.trim() !== ''
       )
       const description =
-        firstChildWithText.length > 1
+        firstChildWithText.length > 0
           ? firstChildWithText[0].children[0].text.trim()
           : ''
 
