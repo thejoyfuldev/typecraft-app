@@ -17,7 +17,7 @@ export default function Editor({ doc }: { doc: Doc<'docs'> }) {
   const [content, setContent] = useState(doc?.content ?? [])
   const [isDirty, setIsDirty] = useState(false)
 
-  const debouncedContent = useDebounce(content, 1500)
+  const debouncedContent = useDebounce(content, 500)
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
