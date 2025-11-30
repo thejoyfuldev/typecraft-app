@@ -15,8 +15,22 @@ export default function Editor({ doc }: { doc: Doc<'docs'> }) {
   })
 
   const [content, setContent] = useState(doc?.content ?? [])
+  const [isDirty, setIsDirty] = useState(false)
 
   const debouncedContent = useDebounce(content, 1500)
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (!isDirty) return
+
+      e.preventDefault()
+      e.returnValue = 'true'
+    }
+
+    window.addEventListener('beforeunload', handleBeforeUnload)
+    return () =>
+      window.removeEventListener('beforeunload', handleBeforeUnload)
+  }, [isDirty])
 
   useEffect(() => {
     if (!debouncedContent) return
@@ -35,6 +49,7 @@ export default function Editor({ doc }: { doc: Doc<'docs'> }) {
           docId: doc._id,
           update: { content: debouncedContent, description },
         })
+        setIsDirty(false)
       } catch (err) {
         console.log((err as Error).message)
       }
@@ -46,7 +61,10 @@ export default function Editor({ doc }: { doc: Doc<'docs'> }) {
   return (
     <Plate
       editor={editor}
-      onChange={({ value }) => setContent(value)}
+      onChange={({ value }) => {
+        setIsDirty(true)
+        setContent(value)
+      }}
     >
       <PlateContent
         style={{
